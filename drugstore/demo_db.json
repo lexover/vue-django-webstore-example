@@ -1,0 +1,129 @@
+{
+  "product_group": [
+    {
+      "name": "Supplements",
+      "description": ""
+    },
+    {
+      "name": "Vitamins",
+      "description": ""
+    },
+    {
+      "name": "Diet and nutrition",
+      "description": ""
+    }
+  ],
+  "product": [
+    {
+      "group": "Supplements",
+      "name": "Bioderma, 100ml",
+      "image": "/images/product_01.png",
+      "price": "29.1",
+      "sale_price": "28.3",
+      "sale": "True",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Supplements",
+      "name": "Ibuprofen Tablets, 200mg",
+      "image": "/images/product_07.png",
+      "price": "23.4",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Diet and nutrition",
+      "name": "Chanca Piedra, 30ml",
+      "image": "/images/product_02.png",
+      "price": "7.32",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Supplements",
+      "name": "Umcka Cold Care, 20mg",
+      "image": "/images/product_03.png",
+      "price": "21.2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Vitamins",
+      "name": "Cetyl Pure, 100pc",
+      "image": "/images/product_04.png",
+      "price": "43.7",
+      "sale_price": "40.4",
+      "sale": "True",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Vitamins",
+      "name": "CLA Core, 100pc",
+      "image": "/images/product_05.png",
+      "price": "83.01",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Diet and nutrition",
+      "name": "Pu Pouri",
+      "image": "/images/product_06.png",
+      "price": "36.3",
+      "sale_price": "36.0",
+      "sale": "True",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Supplements",
+      "name": "Bioderma, 50ml",
+      "image": "/images/product_01.png",
+      "price": "14.3",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Supplements",
+      "name": "Ibuprofen Tablets, 500mg",
+      "image": "/images/product_07.png",
+      "price": "31.1",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Diet and nutrition",
+      "name": "Chanca Piedra, 50ml",
+      "image": "/images/product_02.png",
+      "price": "11.23",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Supplements",
+      "name": "Umcka Cold Care, 30mg",
+      "image": "/images/product_03.png",
+      "price": "30.2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Vitamins",
+      "name": "Cetyl Pure, 60pc",
+      "image": "/images/product_04.png",
+      "price": "24.9",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    },
+    {
+      "group": "Vitamins",
+      "name": "CLA Core, 50pc",
+      "image": "/images/product_05.png",
+      "price": "48.51",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore."
+    }
+  ],
+  "country": [
+    {
+      "name": "Ukraine"
+    },
+    {
+      "name": "Russia"
+    },
+    {
+      "name": "Germany"
+    },
+    {
+      "name": "Italy"
+    }
+  ]
+}

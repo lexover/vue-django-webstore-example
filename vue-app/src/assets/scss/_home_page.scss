@@ -1,0 +1,101 @@
+//==================== Carousel ====================//
+
+.carousel-item {
+    .img-fluid {
+        height: calc(90vh);
+        object-fit: cover;
+    }
+
+}
+.carousel-caption {
+  font-family: Nunito;
+  top: 50%;
+  transform: translate(0, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3vh;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+
+  h1 {
+      font-size: 3em;
+  }
+
+  .carousel-btn {
+    width: 40vh;
+    height: 7vh;
+    background: #fff;
+    border: none;
+    margin-top: 60px;
+    color: $primary;
+    font-size: 1em;
+    border: 3px solid rgba(white, 0);
+    text-shadow: none;
+
+    &:hover {
+      background-color: rgba(100, 100, 100, 0.3);
+      border: 3px solid #fff;
+      color: white;
+    }
+  }
+
+  .btn-primary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
+    background-color: $primary;
+    color: white;
+    border: 3px solid #fff;
+
+  }
+
+  .btn-primary:focus {
+    background-color: $primary;
+    color: white;
+  }
+}
+
+//====================  Features ========== //
+.feature {
+    h3 {
+        font-size: 20px;
+        color: $black;
+        font-weight: 400;
+    }
+
+    .wrap-icon {
+        font-size: 40px;
+        line-height: 70px;
+        margin-bottom: 20px;
+
+        width: 70px;
+        height: 70px;
+        display: block;
+        text-align: center;
+        background: rgba($primary, .1);
+        color: $primary;
+        border-radius: 40%;
+    }
+}
+
+.site-section {
+    padding: 2.5em 0;
+
+    &.site-section-sm {
+        padding: 4em 0;
+            
+    }
+}
+.d-flex {
+    display: flex !important;
+}
+
+a {
+    color: $primary;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none;
+        color: $primary-dark;
+
+    }
+}
