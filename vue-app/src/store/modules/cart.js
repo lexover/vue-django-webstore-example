@@ -89,7 +89,9 @@ const mutations = {
   [SET_LIST](state, data) { state.cart_items = data; },
   [SET_ITEM_QUANTITY](state, payload) {
     const line = state.cart_items.find((line) => line.product.id === payload.product.id);
-    line.quantity = payload.quantity;
+    if (line) {
+      line.quantity = payload.quantity;
+    }
   },
 };
 
