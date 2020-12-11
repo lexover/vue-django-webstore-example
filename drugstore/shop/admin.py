@@ -6,6 +6,7 @@ from .models import ShippingAddress
 from .models import Country
 from .models import OrderItem
 from .models import Order
+from .models import Review
 
 
 class ShippingAddressInline(admin.StackedInline):
@@ -35,3 +36,4 @@ admin.site.register(ProductGroup)
 admin.site.register(Product)
 admin.site.register(Country)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Review)

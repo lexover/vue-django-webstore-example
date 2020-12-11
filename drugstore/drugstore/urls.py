@@ -31,6 +31,7 @@ router.register(r'products', views.ProductViewSet, basename='products')
 router.register(r'countries', views.CountryViewSet, basename='countries')
 router.register(r'orders', views.OrderViewSet, basename='orders')
 router.register(r'users', views.UserViewSet, basename='users')
+router.register(r'reviews', views.ReviewViewSet, basename='reviews')
 
 urlpatterns = [
     path('',

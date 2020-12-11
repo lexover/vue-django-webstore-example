@@ -47,6 +47,15 @@ class Factory:
         }
 
     @staticmethod
+    def get_review(user_id, product_id, slug=0):
+        return {
+            'user': user_id,
+            'product': product_id,
+            'rating': slug,
+            'review': f'Review {slug}',
+        }
+
+    @staticmethod
     def get_address(country, order=None, slug=0):
         result = {
             'first_name': f'First_name_{slug}',

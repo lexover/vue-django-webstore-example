@@ -17,6 +17,7 @@ from .models import Country
 from .models import Order
 from .models import Product
 from .models import ProductGroup
+from .models import Review
 
 from .permissions import ReadOnly
 from .permissions import UserPermission
@@ -29,6 +30,7 @@ from .serializers import OrderSerializer
 from .serializers import ProductGroupSerializer
 from .serializers import ProductSerializer
 from .serializers import UserSerializer
+from .serializers import ReviewSerializer
 
 
 class ApiRoot(APIView):
@@ -147,3 +149,20 @@ class OrderViewSet(viewsets.ModelViewSet):
             serializer.save(owner=None)
         else:
             serializer.save(owner=self.request.user)
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    # Overrides get_queryset to restrict the results to only items owned by the authorized user.
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            return Review.objects.all()
+        elif not self.request.user.is_anonymous:
+            return Review.objects.all().filter(user=self.request.user)
+        return Review.objects.none()
+

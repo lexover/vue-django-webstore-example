@@ -7,6 +7,7 @@ from .models import OrderItem
 from .models import Order
 from .models import ShippingAddress
 from .models import Country
+from .models import Review
 
 
 class ProductGroupSerializer(serializers.ModelSerializer):
@@ -20,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'group', 'name', 'image', 'description', 'price', 'sale', 'sale_price']
+        fields = ['id', 'group', 'name', 'image', 'description', 'price', 'sale', 'sale_price', 'rating']
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -109,3 +110,12 @@ class OrderSerializer(serializers.ModelSerializer):
                     updated_items.append(OrderItem.objects.create(order=instance, **item))
                 instance.order_items.set(updated_items)
         return instance
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+
+    class Meta:
+        model = Review
+        fields = ['id', 'user', 'product', 'rating', 'review']
