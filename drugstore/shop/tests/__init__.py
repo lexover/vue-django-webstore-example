@@ -3,4 +3,5 @@ from . import test_product
 from . import test_product_names
 from . import test_user
 from . import test_countries
+from . import test_review
 from . import helper

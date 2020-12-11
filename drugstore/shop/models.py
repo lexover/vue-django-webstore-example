@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models import DecimalField
 from django.db.models import F
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 
 
 class ProductGroup(models.Model):
@@ -28,6 +29,11 @@ class Product(models.Model):
         if self.sale_price == 0:
             self.sale_price = self.price
         super(Product, self).save(*args, **kwargs)
+
+    @property
+    def rating(self):
+        val = Review.objects.filter(product__exact=self.pk).aggregate(total=Avg('rating'))['total']
+        return val if val else 0
 
     def __str__(self):
         return f'{self.group.name}: {self.name} - ${self.price}'
@@ -113,3 +119,19 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f'{self.product.name}: {self.price} - ${self.quantity}'
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Rating(models.IntegerChoices):
+        NONE = 0, _('None')
+        UGLY = 1, _('Ugly')
+        BAD = 2, _('Bad')
+        NOT_BAD = 3, _('Not bad')
+        GOOD = 4, _('Good')
+        EXCELLENT = 5, _('Excellent')
+
+    rating = models.IntegerField(choices=Rating.choices, default=Rating.NONE)
+    review = models.TextField(blank=True, default='')
