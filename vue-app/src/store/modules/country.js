@@ -1,6 +1,8 @@
-import ApiService from '@/common/api.service';
-import { URL_COUNTRIES } from '@/common/config.js';
-import { FETCH_LIST, SET_LIST, GET_ITEMS_LIST } from '../types';
+import { ApiService } from '@/common/api.service';
+import { URL_COUNTRIES } from '@/common/config';
+import { FETCH_ITEMS_LIST } from '../actions.types';
+import { SET_ITEMS_LIST } from '../mutations.types';
+import { GET_ITEMS_LIST } from '../getters.types';
 
 const state = () => ({
   countries: [],
@@ -11,13 +13,13 @@ const getters = {
 };
 
 const mutations = {
-  [SET_LIST](state, payload) { state.countries = payload; },
+  [SET_ITEMS_LIST](state, payload) { state.countries = payload; },
 };
 
 const actions = {
-  async [FETCH_LIST]({ commit }) {
+  async [FETCH_ITEMS_LIST]({ commit }) {
     const { data } = await ApiService.get(URL_COUNTRIES);
-    commit(SET_LIST, data.results);
+    commit(SET_ITEMS_LIST, data.results);
   },
 };
 

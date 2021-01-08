@@ -1,17 +1,22 @@
 from django.contrib.auth.models import User, AnonymousUser
 from django_filters import rest_framework as django_filters
+from django.db import IntegrityError
+from django.db.models import Avg, Count
 
 from rest_framework import filters
 from rest_framework import mixins
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .filters import ProductsFilter
+from .filters import ReviewFilter
 
 from .models import Country
 from .models import Order
@@ -38,6 +43,7 @@ class ApiRoot(APIView):
         return Response({
             'product_groups': reverse('prodGroups-list', request=request, format=format),
             'products': reverse('products-list', request=request, format=format),
+            'reviews': reverse('reviews-list', request=request, format=format),
             'products_names': reverse('products_names', request=request, format=format),
             'countries': reverse('countries-list', request=request, format=format),
             'orders': reverse('orders-list', request=request, format=format),
@@ -153,16 +159,32 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated | ReadOnly]
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-    # Overrides get_queryset to restrict the results to only items owned by the authorized user.
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_staff:
-            return Review.objects.all()
-        elif not self.request.user.is_anonymous:
-            return Review.objects.all().filter(user=self.request.user)
-        return Review.objects.none()
+    filter_backends = [django_filters.DjangoFilterBackend]
+    filterset_class = ReviewFilter
 
+    # It's necessary to save user from auth information.
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except IntegrityError as err:
+            raise ValidationError()
+
+
+class ProductRating(APIView):
+    def get(self, request):
+        id = request.query_params.get('id', None)
+        if id:
+            val = Review.objects.filter(product__exact=id).aggregate(value=Avg('rating'), votes=Count('rating'))
+            if not val['value']:
+                val['value'] = 0
+            return Response(data=val, status=status.HTTP_200_OK)
+        else:
+            return Response(data=[], status=status.HTTP_404_NOT_FOUND)

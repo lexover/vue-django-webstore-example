@@ -27,19 +27,26 @@ class ReviewTestCase(TestCase):
 
     # ====================    GET   ==================== #
     def test_get_all_reviews(self):
-        self.client.credentials(HTTP_AUTHORIZATION=self.user['token'])
         response = self.client.get(reverse(f'{self.url}-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertListEqual(rf.to_data(response.data), [self.data])
 
+    def test_get_valid_review_by_product(self):
+        response = self.client.get(reverse(f'{self.url}-list'), data={'product': self.product.pk})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(rf.to_data(response.data)[0], self.data)
+
+    def test_get_valid_review_by_username(self):
+        response = self.client.get(reverse(f'{self.url}-list'), data={'user': self.user['user'].pk})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(rf.to_data(response.data)[0], self.data)
+
     def test_get_valid_review(self):
-        self.client.credentials(HTTP_AUTHORIZATION=self.user['token'])
         response = self.client.get(reverse(f'{self.url}-detail', kwargs={'pk': self.instance.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(rf.to_data(response.data), self.data)
 
     def test_get_invalid_review(self):
-        self.client.credentials(HTTP_AUTHORIZATION=self.user['token'])
         response = self.client.get(reverse(f'{self.url}-detail', kwargs={'pk': self.instance.pk + 1}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -52,9 +59,21 @@ class ReviewTestCase(TestCase):
     def test_create_valid_review_status_201(self):
         user = create_user('test_2')
         data = Factory.get_review(user_id=user['user'].pk, product_id=self.product.pk)
-        response = self.create_review(data, user)
+        # Without user, user will be set from auth information
+        save_data = {'product': data['product'], 'review': data['review'], 'rating': data['rating']}
+        response = self.create_review(save_data, user)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(rf.to_data(response.data), data)
+
+    def test_create_invalid_by_unique_constraint_user_product(self):
+        user = create_user('test_2')
+        data = Factory.get_review(user_id=user['user'].pk, product_id=self.product.pk)
+        # Without user, user will be set from auth information
+        save_data = {'product': data['product'], 'review': data['review'], 'rating': data['rating']}
+        response = self.create_review(save_data, user)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.create_review(save_data, user)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_invalid_review_status_400(self):
         self.data['product'] = 999
@@ -76,7 +95,9 @@ class ReviewTestCase(TestCase):
 
     def test_update_valid_review_status_200(self):
         data = Factory.get_review(user_id=self.user['user'].pk, product_id=self.product.pk, slug=2)
-        response = self.update_review(data, self.user)
+        # Without user, user will be set from auth information
+        save_data = {'product': data['product'], 'review': data['review'], 'rating': data['rating']}
+        response = self.update_review(save_data, self.user)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(rf.to_data(response.data), data)
 

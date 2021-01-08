@@ -1,76 +1,80 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import iMain from '@/views/Main';
-import ProductsList from '@/views/ProductsList';
-import ProductInfo from '@/views/ProductInfo';
-import Shop from '@/views/Shop';
-import Cart from '@/views/Cart';
-import Checkout from '@/views/Checkout';
-import Home from '@/views/Home';
-import Login from '@/views/Login';
-import Register from '@/views/Register';
-import Profile from '@/views/Profile';
-import About from '@/views/About';
+import TheMainView from '@/views/TheMainView.vue';
+import TheProductsListView from '@/views/TheProductsListView.vue';
+import TheProductView from '@/views/TheProductView.vue';
+import TheShopView from '@/views/TheShopView.vue';
+import TheCartView from '@/views/TheCartView.vue';
+import TheCheckoutView from '@/views/TheCheckoutView.vue';
+import TheHomeView from '@/views/TheHomeView.vue';
+import TheLoginView from '@/views/TheLoginView.vue';
+import TheRegisterView from '@/views/TheRegisterView.vue';
+import TheProfileView from '@/views/TheProfileView.vue';
+import TheAboutView from '@/views/TheAboutView.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    component: iMain,
+    component: TheMainView,
     children: [{
       name: 'home',
       path: '/',
-      component: Home,
+      component: TheHomeView,
     },
     {
       path: 'catalog',
-      component: Shop,
+      component: TheShopView,
       children: [{
         path: '/',
         name: 'catalog',
-        component: ProductsList,
+        component: TheProductsListView,
         props: true,
       },
       {
         path: 'product/:id',
         name: 'product',
-        component: ProductInfo,
-        props: true,
+        component: TheProductView,
+        props(route) {
+          const props = { ...route.params };
+          props.id = +props.id;
+          return props;
+        },
       },
       ],
     },
     {
       path: 'cart',
       name: 'cart',
-      component: Cart,
+      component: TheCartView,
     },
     {
       path: 'checkout',
       name: 'checkout',
-      component: Checkout,
+      component: TheCheckoutView,
     },
     {
       path: 'login',
       name: 'login',
-      component: Login,
+      component: TheLoginView,
     },
     {
       path: 'register',
       name: 'register',
-      component: Register,
+      component: TheRegisterView,
     },
     {
       path: 'profile',
       name: 'profile',
-      component: Profile,
+      component: TheProfileView,
     },
     {
       path: 'about',
       name: 'about',
-      component: About,
-    }
+      component: TheAboutView,
+    },
     ],
   },
   {

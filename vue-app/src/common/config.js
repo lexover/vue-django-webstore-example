@@ -1,5 +1,5 @@
 export const API_URL = 'http://localhost:8080/api';
-//export const API_URL = 'http://localhost:8000';
+// export const API_URL = 'http://localhost:8000';
 
 export const URL_CATEGORIES = 'product_groups';
 export const URL_PRODUCTS = 'products';
@@ -11,5 +11,6 @@ export const URL_CHECK_USERNAME = 'check_username';
 export const URL_OBTAIN_TOKEN = 'token';
 export const URL_TOKEN_REFRESH = 'token/refresh';
 export const URL_TOKEN_VERIFY = 'token/verify';
+export const URL_REVIEWS = 'reviews';
 
 export default API_URL;

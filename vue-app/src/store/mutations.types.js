@@ -1,0 +1,16 @@
+export const SET_ITEMS_LIST = 'SET_ITEMS_LIST';
+export const SET_ITEM = 'SET_ITEM';
+export const SET_ITEM_COUNT_ON_PAGE = 'SET_ITEM_COUNT_ON_PAGE';
+export const SET_LOADING = 'SET_LOADING';
+export const SET_PRICES_RANGE = 'SET_PRICES_RANGE';
+export const SET_LAST_PARAMS = 'SET_LAST_PARAMS';
+export const SET_NAMES_LIST = 'SET_NAMES_LIST';
+export const SET_ITEM_QUANTITY = 'SET_ITEM_QUANTITY';
+export const SET_AUTH = 'SET_AUTH';
+export const SET_PATH = 'SET_PATH';
+export const SET_UNIQUE = 'SET_UNIQUE';
+export const SET_RATING = 'SET_RATING';
+export const ADD_ITEM = 'ADD_ITEM';
+export const ADD_ERROR = 'ADD_ERROR';
+export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const REMOVE_AUTH = 'REMOVE_AUTH';

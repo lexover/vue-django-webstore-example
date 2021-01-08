@@ -1,13 +1,15 @@
-from rest_framework import serializers
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
 from django.db import transaction
+
+from rest_framework import serializers
+
+from .models import Country
+from .models import Order
+from .models import OrderItem
 from .models import Product
 from .models import ProductGroup
-from .models import OrderItem
-from .models import Order
-from .models import ShippingAddress
-from .models import Country
 from .models import Review
+from .models import ShippingAddress
 
 
 class ProductGroupSerializer(serializers.ModelSerializer):
@@ -113,7 +115,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:

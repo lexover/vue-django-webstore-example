@@ -1,10 +1,10 @@
 from django.db import models
 from django.db.models import DecimalField
 from django.db.models import F
-from django.db.models import Sum, Avg
+from django.db.models import Sum, Avg, Count
+from django.db.models import UniqueConstraint
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import User
 
 
 class ProductGroup(models.Model):
@@ -32,7 +32,9 @@ class Product(models.Model):
 
     @property
     def rating(self):
-        val = Review.objects.filter(product__exact=self.pk).aggregate(total=Avg('rating'))['total']
+        val = Review.objects.filter(product__exact=self.pk).aggregate(value=Avg('rating'), votes=Count('rating'))
+        if not val['value']:
+            val['value'] = 0
         return val if val else 0
 
     def __str__(self):
@@ -123,7 +125,7 @@ class OrderItem(models.Model):
 
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
     class Rating(models.IntegerChoices):
         NONE = 0, _('None')
@@ -135,3 +137,6 @@ class Review(models.Model):
 
     rating = models.IntegerField(choices=Rating.choices, default=Rating.NONE)
     review = models.TextField(blank=True, default='')
+
+    class Meta:
+        constraints = [UniqueConstraint(fields=['product', 'user'], name='unique_review')]

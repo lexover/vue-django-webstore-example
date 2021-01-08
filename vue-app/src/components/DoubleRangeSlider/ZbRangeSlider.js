@@ -1,5 +1,7 @@
+/* eslint-disable*/
+
 export default function rangeSlider(id) {
-  const self = this;
+  const selfRange = this;
   let startX = 0;
   let x = 0;
 
@@ -46,8 +48,8 @@ export default function rangeSlider(id) {
   // normalize flag
   const normalizeFact = 26;
 
-  self.slider = slider;
-  self.reset = function reset() {
+  selfRange.slider = slider;
+  selfRange.reset = function reset() {
     touchLeft.style.left = '0px';
     touchRight.style.left = `${slider.offsetWidth - touchLeft.offsetWidth}px`;
     lineSpan.style.marginLeft = '0px';
@@ -56,17 +58,17 @@ export default function rangeSlider(id) {
     x = 0;
   };
 
-  self.setMinThreshold = function setMinThreshold(minThreshold) {
-    self.reset();
+  selfRange.setMinThreshold = function setMinThreshold(minThreshold) {
+    selfRange.reset();
     min = minThreshold;
   };
 
-  self.setMaxThreshold = function setMaxThreshold(maxThreshold) {
-    self.reset();
+  selfRange.setMaxThreshold = function setMaxThreshold(maxThreshold) {
+    selfRange.reset();
     max = maxThreshold;
   };
 
-  self.setMinValue = function setMinValue(minValue) {
+  selfRange.setMinValue = function setMinValue(minValue) {
     const ratio = (minValue - min) / (max - min);
     touchLeft.style.left = `${Math.ceil(
       ratio * (slider.offsetWidth - (touchLeft.offsetWidth + normalizeFact)),
@@ -76,7 +78,7 @@ export default function rangeSlider(id) {
     slider.setAttribute('se-min-value', minValue);
   };
 
-  self.setMaxValue = function setMaxValue(maxValue) {
+  selfRange.setMaxValue = function setMaxValue(maxValue) {
     const ratio = (maxValue - min) / (max - min);
     touchRight.style.left = `${Math.ceil(
       ratio * (slider.offsetWidth - (touchLeft.offsetWidth + normalizeFact))
@@ -88,7 +90,7 @@ export default function rangeSlider(id) {
   };
 
   // initial reset
-  self.reset();
+  selfRange.reset();
 
   // usefull values, min, max, normalize fact is the width of both touch buttons
   const maxX = slider.offsetWidth - touchRight.offsetWidth;
@@ -96,8 +98,8 @@ export default function rangeSlider(id) {
   const initialValue = lineSpan.offsetWidth - normalizeFact;
 
   // set defualt values
-  self.setMinValue(defaultMinValue);
-  self.setMaxValue(defaultMaxValue);
+  selfRange.setMinValue(defaultMinValue);
+  selfRange.setMaxValue(defaultMaxValue);
 
   // setup touch/click events
   function onStart(event) {
@@ -165,8 +167,8 @@ export default function rangeSlider(id) {
       );
     }
 
-    if (self.onChange) {
-      self.onChange(
+    if (selfRange.onChange) {
+      selfRange.onChange(
         slider.getAttribute('se-min-value'),
         slider.getAttribute('se-max-value'),
       );
@@ -193,8 +195,8 @@ export default function rangeSlider(id) {
       );
     }
 
-    if (self.didChanged) {
-      self.didChanged(
+    if (selfRange.didChanged) {
+      selfRange.didChanged(
         slider.getAttribute('se-min-value'),
         slider.getAttribute('se-max-value'),
       );
@@ -231,12 +233,12 @@ export default function rangeSlider(id) {
   window.addEventListener('resize', () => {
     if (window.matchMedia('(max-width: 1200px)').matches) {
       if (!isWider) {
-        self.reset();
+        selfRange.reset();
         // console.log("Thinker than 1200");
         isWider = true;
       }
     } else if (isWider) {
-      self.reset();
+      selfRange.reset();
       // console.log("Wider than 1200");
       isWider = false;
     }

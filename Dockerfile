@@ -1,5 +1,6 @@
 #Stage 1: Compile an frontend on node machine
 FROM node:lts-alpine as build-stage
+ENV NPM_CONFIG_LOGLEVEL info
 
 WORKDIR /app
 

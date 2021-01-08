@@ -1,0 +1,13 @@
+export const GET_ITEM = 'GET_ITEM';
+export const GET_ITEMS_LIST = 'GET_ITEMS_LIST';
+export const GET_ITEMS_COUNT = 'GET_ITEMS_COUNT';
+export const GET_TOTAL = 'GET_TOTAL';
+export const GET_SUBTOTAL = 'GET_SUBTOTAL';
+export const GET_PRICES_RANGE = 'GET_PRICES_RANGE';
+export const GET_NAMES_LIST = 'GET_NAMES_LIST';
+export const GET_CURRENCY = 'GET_CURRENCY';
+export const GET_ERRORS = 'GET_ERRORS';
+export const GET_PATH = 'GET_PATH';
+export const IS_AUTH = 'IS_AUTH';
+export const IS_UNIQUE = 'IS_UNIQUE';
+export const IS_LOADING = 'IS_LOADING';

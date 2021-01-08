@@ -25,6 +25,7 @@ class ProductViewTestCase(TestCase):
         self.data = Factory.get_product(group=self.group.pk)
         self.instance = Product.objects.create(**{**self.data, **{'group': self.group}})
         self.created_images = []
+        self.rating = {'value': 0, 'votes': 0}
 
     def tearDown(self) -> None:
         if self.created_images:
@@ -42,12 +43,12 @@ class ProductViewTestCase(TestCase):
 
     # ====================    GET   ==================== #
     def test_get_all_products(self):
-        self.data['rating'] = 0
+        self.data['rating'] = self.rating
         data = [self.data]
         for item in range(1, self.items_number):
             val = (Factory.get_product(group=self.group.pk, slug=item))
             Product.objects.create(**{**val, **{'group': self.group}})
-            val['rating'] = 0
+            val['rating'] = self.rating
             data.append(val)
 
         response = self.client.get(reverse(f'{self.url}-list'))
@@ -58,7 +59,7 @@ class ProductViewTestCase(TestCase):
     def test_get_valid_product(self):
         response = self.client.get(reverse(f'{self.url}-detail', kwargs={'pk': self.instance.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.data['rating'] = 0
+        self.data['rating'] = self.rating
         self.assertEqual(rf.to_data(response.data, filters=[rf.filter_img]), self.data)
 
     def test_get_invalid_product(self):
@@ -79,7 +80,7 @@ class ProductViewTestCase(TestCase):
         response = self.create_product(data, create_user(is_admin=True))
         self.register_created_image(response)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        data['rating'] = 0
+        data['rating'] = self.rating
         self.assertEqual(rf.to_data(response.data, filters=[rf.filter_img, rf.filter_img_hash]), data)
 
     # If sale price is not specified or set to 0.0 it should be replaced in DB by current price.
@@ -92,7 +93,7 @@ class ProductViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # Set 'sale_price' as current price before check.
         data['sale_price'] = data['price']
-        data['rating'] = 0
+        data['rating'] = self.rating
         self.assertEqual(rf.to_data(response.data, filters=[rf.filter_img, rf.filter_img_hash]), data)
 
     def test_create_invalid_product_status_400(self):
@@ -124,7 +125,7 @@ class ProductViewTestCase(TestCase):
         response = self.update_product(data, create_user(is_admin=True))
         self.register_created_image(response)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data['rating'] = 0
+        data['rating'] = self.rating
         self.assertEqual(rf.to_data(response.data, filters=[rf.filter_img, rf.filter_img_hash]), data)
 
     def test_update_invalid_product_status_400(self):
