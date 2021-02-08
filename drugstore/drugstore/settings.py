@@ -25,7 +25,7 @@ SECRET_KEY = 'r7pzq4mo2d9lli_=$_olx!up9*@ipi_c-qo71w$6$o=*4l2gu4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
@@ -41,11 +41,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
-    #'silk',
 ]
 
 MIDDLEWARE = [
-    # It used only for local tests and have to be on the top
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +52,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'silk.middleware.SilkyMiddleware',
     'django.middleware.common.CommonMiddleware'
 ]
 
@@ -90,10 +87,22 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# SQLite database 
+#DATABASES = {
+    #'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+    #}
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pharmative',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'pgdb',
+        'PORT': 5432
     }
 }
 
@@ -153,7 +162,7 @@ CELERY_TIMEZONE = 'Europe/Moscow'
 
 # E-mail settings
 EMAIL_HOST = '' # smtp.mail_host.domen
-EMAIL_HOST_USER = '' # user 
+EMAIL_HOST_USER = '' # user - usually username@mail.domen
 EMAIL_HOST_PASSWORD = '' #password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

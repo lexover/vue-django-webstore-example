@@ -1,18 +1,53 @@
-version: "3.3"
+version: "3.7"
 services:
-  redis:
-    image: "redis:alpine"
-  
-  web: 
-    build: .
-    ports:
-      - 8080:8080
-  
-  celery: 
-    build: .
-    command: celery -A drugstore worker --loglevel=INFO --logfile=logs/celery.log
-    depends_on: 
-      - web 
-      - redis
-    links:
-      - redis
+    
+    # Buld frontend and put it to 'frontend' volume
+    vue_app: 
+        build: vue-app
+        volumes: 
+            - frontend:/app/dist
+    
+    # PostgreeSQL container
+    pgdb: 
+        image: postgres:alpine
+        container_name: pgdb
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: pharmative
+    
+    # Redis container        
+    redis:
+        image: "redis:alpine"
+    
+    # Main webapplication start nginx and uwsgi server.
+    web:
+        build: .
+        volumes: 
+            - type: volume
+              source: frontend
+              target: /app/html
+              volume:
+                nocopy: true
+        depends_on: 
+            - vue_app
+            - pgdb
+            
+        ports:
+            - 8080:8080
+            
+        working_dir: /app/drugstore
+        command: bash -c 'while !</dev/tcp/pgdb/5432; do sleep 1; done; /start.sh'
+    
+    # Run celery worker
+    celery: 
+        build: . 
+        command: celery -A drugstore worker --loglevel=INFO --logfile=logs/celery.log
+        depends_on: 
+            - web 
+            - redis
+        links:
+            - redis
+        
+volumes:
+    frontend:
