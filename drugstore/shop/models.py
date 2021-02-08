@@ -112,6 +112,10 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2, editable=False)
     sale_price = models.DecimalField(max_digits=7, decimal_places=2, editable=False)
 
+    @property
+    def total_price(self):
+        return self.sale_price * self.quantity
+
     # The overridden method to copy price and sale price from product to order item.
     def save(self, *args, **kwargs):
         product = Product.objects.get(pk=self.product.id)

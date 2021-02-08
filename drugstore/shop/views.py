@@ -13,13 +13,13 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .filters import ProductsFilter
 from .filters import ReviewFilter
 
 from .models import Country
 from .models import Order
+from .models import OrderItem
 from .models import Product
 from .models import ProductGroup
 from .models import Review
@@ -37,6 +37,7 @@ from .serializers import ProductSerializer
 from .serializers import UserSerializer
 from .serializers import ReviewSerializer
 
+from .tasks import send_order_acceptance
 
 class ApiRoot(APIView):
     def get(self, request, format=None):
@@ -152,9 +153,30 @@ class OrderViewSet(viewsets.ModelViewSet):
     # It's necessary to save order owner.
     def perform_create(self, serializer):
         if self.request.user.is_anonymous:
-            serializer.save(owner=None)
+            order = serializer.save(owner=None)
         else:
-            serializer.save(owner=self.request.user)
+            order = serializer.save(owner=self.request.user)
+        # If order created successful send email to customer
+        if order:
+            send_order_acceptance.delay(self.get_order_data(order))
+
+    # It's necessary to make the order data JSON serializable
+    def get_order_data(self, order):
+        items = []
+        for item in OrderItem.objects.filter(order__exact=order.pk):
+            items.append({
+                'image': str(item.product.image),
+                'name': str(item.product.name),
+                'quantity': int(item.quantity),
+                'price': float(item.product.sale_price),
+                'total': float(item.total_price)
+            })
+        return {
+            'email': str(order.shipping_address.email),
+            'id': int(order.pk),
+            'items': items,
+            'total': float(order.get_total)
+        }
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
@@ -174,7 +196,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         try:
             return super().create(request, *args, **kwargs)
-        except IntegrityError as err:
+        except IntegrityError:
             raise ValidationError()
 
 

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your order</title>
+    <style>
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 720px;
+        }
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .col {
+           -ms-flex-preferred-size: 0;
+            flex-basis: 0;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            max-width: 100%;
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        .summary {
+            flex-flow: row-reverse;
+            align-self: end;
+            background: red;
+        }
+        table {
+            text-align: center;
+            width: 100%;
+        }
+        thead {
+            background-color: silver;
+        }
+        tr, td {
+            border-bottom: 1px solid silver;
+        }
+        .empty {
+            border: none;
+        }
+        tr, td, th {
+            padding: 10px;
+        }
+        .bold {
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h2>Thanks for your choice!</h2>
+        <h3>Your order #{{ id }} will be delivered soon.</h3>
+    </div>
+    <div class="row">
+        <table cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><img src="{{ item.image }}" alt="Image" style="height: 100px;"></td>
+                    <td>{{ item.name }}</td>
+                    <td>${{ item.price|floatformat:"2" }}</td>
+                    <td>{{ item.quantity|floatformat:"0" }}</td>
+                    <td>${{ item.total|floatformat:"2" }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="bold">
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td>Total</td>
+                    <td>{{ total|floatformat:"2" }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
